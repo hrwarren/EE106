@@ -122,8 +122,8 @@ void loop() {
   // calculate direction to go, where 500 is straight ahead, 0 is all the way right, 1000 is all the way left
   long dir = 1000*minDistanceDir/NUM_SAMPLES;
 
-  int lMotorSpeed = min(255,(max(0,map(dir,0,1000,0,255))));
-  int rMotorSpeed = min(255,(max(0,map(dir,1000,0,0,255))));
+  int lMotorSpeed = min(255,(max(0,map(dir,1000,0,0,255))));
+  int rMotorSpeed = min(255,(max(0,map(dir,0,1000,0,255))));
 
   Serial.println(dir);
   Serial.println(lMotorSpeed);
