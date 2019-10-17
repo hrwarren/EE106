@@ -6,6 +6,4 @@
 .vscode/
 include/
 test/
-.travis.yml
-platformio.ini
 
