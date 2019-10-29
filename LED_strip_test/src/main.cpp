@@ -1,3 +1,6 @@
+// Rose Warren
+// Willem Hillier
+
 #include <Arduino.h>
 #include <FastLED.h>
 
