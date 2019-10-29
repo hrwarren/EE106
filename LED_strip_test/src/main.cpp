@@ -2,7 +2,7 @@
 #include <FastLED.h>
 
 
-// Jake said roughly 10-15 individual LEDs
+// The number of LEDs in the strip
 #define NUM_LEDS 8
 
 #define LED_PIN     5
@@ -16,7 +16,6 @@
 
 // Define the array of leds
 CRGBArray<NUM_LEDS> leds;
-
 uint8_t colorIndex = 0;
 
 // Define palette and blending
@@ -28,6 +27,7 @@ int state = 0;
 #define NUM_STATES 3
 
 
+// Cycle through the rainbow
 void hueCycle(){
   for(int baseHue = 0; baseHue < 255; baseHue ++){
     for(int led = 0; led < NUM_LEDS; led ++){
@@ -37,6 +37,7 @@ void hueCycle(){
   }
 }
 
+// Commit a felony if attached to a motorized vehicle
 void policeBlinkAlternate(){
   leds = CRGB::Black;
 
@@ -72,6 +73,7 @@ void policeBlinkAlternate(){
   }
 }
 
+// Cycle less smoothly through the rainbow
 void FillLEDsFromPaletteColors(){
     uint8_t brightness = 255;
 
@@ -82,6 +84,7 @@ void FillLEDsFromPaletteColors(){
     FastLED.delay(20);
 }
 
+// The function that actually changes the program's state when called in the interrupt
 void changeState() {
   if(state < NUM_STATES - 1){
     state++;
@@ -93,9 +96,11 @@ void changeState() {
 void setup() {
   Serial.begin(9600);
   
+  // Indicating the type of LED strip used
   FastLED.addLeds<WS2812, LED_PIN, COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
   FastLED.setBrightness(  BRIGHTNESS );
 
+  // The built-in palette used for FillLEDsFromPaletteColors
   currentPalette = RainbowColors_p;
   currentBlending = LINEARBLEND;
 
@@ -105,8 +110,12 @@ void setup() {
 }
 
 void loop() {
+
+  // Debugging statements
   Serial.print("main: ");
   Serial.println(state);
+
+  // The switches that determine which LED pattern is displayed based on state
    switch(state){
     case 0:
       FillLEDsFromPaletteColors();
