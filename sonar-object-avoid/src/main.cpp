@@ -5,8 +5,10 @@
 #include <L293D.h> // motor library
 #include <math.h>
 #include <Servo.h>
+#include <LiquidCrystal_I2C.h>
+#include <Wire.h>
 
-#define SCAN_SAMPLE_DELAY_MS 150
+#define SCAN_SAMPLE_DELAY_MS 170
 
 #define NUM_SAMPLES 10
 
@@ -25,10 +27,19 @@ L293D lmotor(4,5,6); // Left
 // Sonar pin
 const int pingPin = 7;
 
+// LCD object
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
+
 void setup() {
 
   // Start the serial
   Serial.begin(9600);
+
+  // Start the LCD
+  lcd.begin();
+  lcd.backlight();
+  lcd.print("Hello world");
 
   // Assigning pins for servo
   sonarServo.attach(3);
@@ -61,7 +72,6 @@ int getDistance() {
   return cm;
 }
 
-
 void loop() {
 
   // Start with the motors off
@@ -75,9 +85,13 @@ void loop() {
 
     // choose scan direction
     if(scanDir){
+      delay(100);
       sonarServo.write(175-i*175/NUM_SAMPLES);
+      delay(100);
     }else{
+      delay(100);
       sonarServo.write(i*175/NUM_SAMPLES);
+      delay(100);
     }
     lastMillis = millis();
 
@@ -125,5 +139,7 @@ void loop() {
 
   // Pause so the servo, sonar and motors aren't all running at once
   delay(3000);
+
+  lcd.print("Hello world");
 
 }
